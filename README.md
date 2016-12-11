@@ -1,2 +1,2 @@
-My read through The Seasone Schemer
-===================================
+My read through The Seasoned Schemer
+====================================
