@@ -38,9 +38,37 @@
       ((null? lat) #f)
       (else (is-first-b? (car lat) (cdr lat))))))
 
+;; observation: there is no explicit recursion in the new version of
+;; two-in-a-row? it apparently should happen in is-first-b?
+
 ;; I have no idea how to do that....
 (define is-first-b?
   (lambda (a lat)
     (cond
       ((null? lat) #f)
-      (else (eq? a (car lat))))))
+      (else (or (eq? a (car lat)) (two-in-a-row? lat))))))
+
+(two-in-a-row? '(a b b c))
+(two-in-a-row? '(a b x c))
+(two-in-a-row? '(a a x c))
+(two-in-a-row? '(a a c c))
+(two-in-a-row? '(a b c d))
+
+(define two-in-a-row-b?
+  (lambda (preceeding lat)
+    (cond
+      ((null? lat) #f)
+      (else (or (eq? preceeding (car lat))
+                (two-in-a-row-b? (car lat) (cdr lat)))))))
+
+(two-in-a-row-b? 'a '(a b b c))
+(two-in-a-row-b? 'a '(a b x c))
+(two-in-a-row-b? 'a '(a a x c))
+(two-in-a-row-b? 'a '(a a c c))
+(two-in-a-row-b? 'a '(a b c d))
+
+(define two-in-a-row?
+  (lambda (lat)
+    (cond
+      ((null? lat) #f)
+      (else (two-in-a-row-b? (car lat) (cdr lat))))))
